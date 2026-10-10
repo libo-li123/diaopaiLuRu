@@ -1,0 +1,288 @@
+/* pages/index/index.wxss */
+
+.page {
+  min-height: 100vh;
+  padding-bottom: 0;
+}
+
+/* ===== 顶部栏 ===== */
+.header {
+  background: #1a1a2e;
+  color: #fff;
+  padding: 28rpx 32rpx;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.header .title {
+  font-size: 36rpx;
+  font-weight: 600;
+}
+.stats-row {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+.stat-item {
+  margin: 0 4rpx;
+}
+.stat-num {
+  font-weight: 700;
+  color: #e94560;
+}
+.stat-divider {
+  margin: 0 12rpx;
+  opacity: 0.4;
+}
+
+/* ===== 主区域 ===== */
+.main {
+  padding: 32rpx 24rpx;
+}
+
+/* ===== 扫码控制 ===== */
+.scan-section {
+  margin-bottom: 24rpx;
+}
+.scan-btn {
+  width: 100% !important;
+  padding: 40rpx 0 !important;
+  background: linear-gradient(135deg, #e94560, #c23152) !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 24rpx;
+  font-size: 36rpx;
+  font-weight: 600;
+  box-shadow: 0 8rpx 24rpx rgba(233, 69, 96, 0.35);
+  line-height: 1.2;
+}
+.scan-btn[disabled] {
+  background: #999 !important;
+  color: rgba(255,255,255,0.7) !important;
+  box-shadow: none;
+}
+.scan-btn::after {
+  border: none;
+}
+
+.toggle-row {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx 32rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+}
+.toggle-item {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+.toggle-label {
+  font-size: 28rpx;
+  color: #333;
+  margin-left: 8rpx;
+}
+.scan-tip {
+  text-align: center;
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  color: #e65100;
+  background: #fff3e0;
+  padding: 12rpx 20rpx;
+  border-radius: 12rpx;
+}
+
+/* ===== 结果卡片 ===== */
+.result-card {
+  margin-top: 24rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.06);
+}
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 24rpx;
+}
+.field-row {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+.field-label {
+  width: 160rpx;
+  color: #888;
+  font-size: 28rpx;
+  flex-shrink: 0;
+}
+.field-value {
+  flex: 1;
+  font-size: 32rpx;
+  color: #222;
+}
+.field-input {
+  flex: 1;
+  font-size: 32rpx;
+  border-bottom: 1rpx solid #e0e0e0;
+  padding: 8rpx 0;
+}
+.tag {
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  margin-left: 12rpx;
+  flex-shrink: 0;
+}
+.tag-auto {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+.tag-manual {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.btn-row {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 32rpx;
+}
+.btn {
+  flex: 1;
+  border-radius: 16rpx !important;
+  font-size: 30rpx;
+  font-weight: 500;
+  border: none;
+}
+.btn::after {
+  border: none;
+}
+.btn-cancel {
+  background: #fff !important;
+  color: #e94560 !important;
+  border: 2rpx solid #e94560 !important;
+}
+.btn-confirm {
+  background: #1a1a2e !important;
+  color: #fff !important;
+}
+
+/* ===== Section 通用 ===== */
+.section {
+  margin-top: 32rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+}
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+.section-sub {
+  font-size: 22rpx;
+  color: #999;
+}
+.empty-tip {
+  text-align: center;
+  color: #bbb;
+  padding: 48rpx 0;
+  font-size: 26rpx;
+}
+
+/* ===== 记录项 ===== */
+.record-item {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+.record-item:last-child {
+  border-bottom: none;
+}
+.r-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+.r-name {
+  font-weight: 600;
+  color: #222;
+  font-size: 30rpx;
+}
+.r-price {
+  color: #e94560;
+  font-weight: 600;
+  font-size: 30rpx;
+}
+.r-meta {
+  color: #888;
+  font-size: 24rpx;
+  line-height: 2;
+}
+
+/* ===== 字典项 ===== */
+.dict-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  font-size: 26rpx;
+}
+.dict-item:last-child {
+  border-bottom: none;
+}
+.dict-key {
+  color: #666;
+}
+.dict-val {
+  color: #222;
+  font-weight: 500;
+}
+
+/* ===== 底部工具栏 ===== */
+.bottom-space {
+  height: 160rpx;
+}
+.toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1rpx solid #eee;
+  padding: 20rpx 32rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  display: flex;
+  gap: 20rpx;
+  z-index: 10;
+}
+.toolbar .btn {
+  flex: 1;
+  border-radius: 16rpx !important;
+  font-size: 28rpx;
+  padding: 24rpx 0;
+}
+.toolbar .btn::after {
+  border: none;
+}
+.btn-clear {
+  background: #f5f5f5 !important;
+  color: #666 !important;
+}
+.btn-export {
+  background: #e94560 !important;
+  color: #fff !important;
+}

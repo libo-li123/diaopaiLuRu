@@ -1,0 +1,136 @@
+<!-- pages/index/index.wxml -->
+<view class="page">
+
+  <!-- ===== 顶部栏 ===== -->
+  <view class="header">
+    <text class="title">吊牌扫码录入</text>
+    <view class="stats-row">
+      <text class="stat-item">已录 <text class="stat-num">{{total}}</text> 条</text>
+      <text class="stat-divider">|</text>
+      <text class="stat-item">{{styleCount}} 款</text>
+      <text class="stat-divider">|</text>
+      <text class="stat-item">合计 ¥{{totalValue}}</text>
+    </view>
+  </view>
+
+  <!-- ===== 主操作区 ===== -->
+  <view class="main">
+
+    <!-- 扫码控制 -->
+    <view class="scan-section">
+      <button class="scan-btn" bindtap="onScan" loading="{{scanning}}" disabled="{{scanning}}">
+        {{scanning ? '扫描中...' : '开始扫码'}}
+      </button>
+
+      <!-- 模式开关 -->
+      <view class="toggle-row">
+        <view class="toggle-item">
+          <switch checked="{{continuous}}" bindchange="onToggleContinuous" color="#e94560" />
+          <text class="toggle-label">连续扫码</text>
+        </view>
+        <view class="toggle-item">
+          <switch checked="{{autoSave}}" bindchange="onToggleAutoSave" color="#e94560" />
+          <text class="toggle-label">智能快存</text>
+        </view>
+      </view>
+      <view class="scan-tip" wx:if="{{continuous || autoSave}}">
+        <text wx:if="{{continuous && autoSave}}">⚡ 已知款号自动保存+连续扫，新款号才需手动确认</text>
+        <text wx:elif="{{continuous}}">保存后自动开始下一次扫码</text>
+        <text wx:elif="{{autoSave}}">已知款号跳过确认直接保存</text>
+      </view>
+    </view>
+
+    <!-- ===== 扫码结果确认卡 ===== -->
+    <view class="result-card" wx:if="{{showResult}}">
+      <view class="card-title">识别结果（确认后保存）</view>
+
+      <view class="field-row">
+        <text class="field-label">条形码</text>
+        <text class="field-value">{{pendingBarcode}}</text>
+      </view>
+      <view class="field-row">
+        <text class="field-label">款号</text>
+        <text class="field-value">{{pendingStyle}}</text>
+      </view>
+      <view class="field-row">
+        <text class="field-label">颜色</text>
+        <text class="field-value">{{pendingColorCode}}{{pendingColor ? ' ' + pendingColor : ''}}</text>
+        <text class="tag {{isKnownColor ? 'tag-auto' : 'tag-manual'}}">{{isKnownColor ? '已匹配' : '新颜色码'}}</text>
+      </view>
+      <view class="field-row">
+        <text class="field-label">尺码</text>
+        <text class="field-value">{{pendingSize || '-'}}</text>
+      </view>
+      <view class="field-row">
+        <text class="field-label">品名</text>
+        <input class="field-input" value="{{pendingName}}" bindinput="onNameInput" placeholder="请输入品名" confirm-type="done" />
+        <text class="tag {{isKnownStyle ? 'tag-auto' : 'tag-manual'}}">{{isKnownStyle ? '自动带出' : '手填'}}</text>
+      </view>
+      <view class="field-row">
+        <text class="field-label">价格</text>
+        <input class="field-input" type="digit" value="{{pendingPrice}}" bindinput="onPriceInput" placeholder="请输入价格" />
+        <text class="tag {{isKnownStyle ? 'tag-auto' : 'tag-manual'}}">{{isKnownStyle ? '自动带出' : '手填'}}</text>
+      </view>
+
+      <view class="btn-row">
+        <button class="btn btn-cancel" bindtap="onCancel">取消</button>
+        <button class="btn btn-confirm" bindtap="onConfirm" type="primary">确认保存</button>
+      </view>
+    </view>
+
+    <!-- ===== 录入记录列表 ===== -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">录入记录</text>
+        <text class="section-sub">长按删除</text>
+      </view>
+      <view wx:if="{{records.length === 0}}" class="empty-tip">还没有记录，点上方按钮开始扫码</view>
+      <view wx:for="{{records}}" wx:key="time" class="record-item" bindlongpress="onDelete" data-id="{{item.id}}">
+        <view class="r-top">
+          <text class="r-name">{{item.name || '未命名'}}</text>
+          <text class="r-price">¥{{item.price || '-'}}</text>
+        </view>
+        <view class="r-meta">
+          <text>款号：{{item.style || '-'}}</text>
+          <text>颜色：{{item.color ? item.colorCode + ' ' + item.color : (item.colorCode || '-')}}　尺码：{{item.size || '-'}}</text>
+          <text>条码：{{item.barcode || '-'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- ===== 款号字典 ===== -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">款号字典</text>
+        <text class="section-sub">自动记住同款品名/价格</text>
+      </view>
+      <view wx:if="{{styleList.length === 0}}" class="empty-tip">暂无，录入新款号后自动记录</view>
+      <view wx:for="{{styleList}}" wx:key="key" class="dict-item">
+        <text class="dict-key">{{item.key}}</text>
+        <text class="dict-val">{{item.name}} ¥{{item.price}}</text>
+      </view>
+    </view>
+
+    <!-- ===== 颜色码字典 ===== -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">颜色码字典</text>
+        <text class="section-sub">点击编辑颜色名称</text>
+      </view>
+      <view wx:if="{{colorList.length === 0}}" class="empty-tip">暂无</view>
+      <view wx:for="{{colorList}}" wx:key="key" class="dict-item" bindtap="onEditColor" data-code="{{item.key}}">
+        <text class="dict-key">{{item.key}}</text>
+        <text class="dict-val">{{item.name || '点击编辑'}}</text>
+      </view>
+    </view>
+
+    <view class="bottom-space"></view>
+  </view>
+
+  <!-- ===== 底部工具栏 ===== -->
+  <view class="toolbar">
+    <button class="btn btn-clear" bindtap="onClear">清空记录</button>
+    <button class="btn btn-export" bindtap="onExport">导出Excel</button>
+  </view>
+
+</view>
